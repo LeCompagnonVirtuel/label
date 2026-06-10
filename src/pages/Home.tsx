@@ -70,7 +70,7 @@ export default function Home() {
           />
         </div>
 
-        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 w-full container-site pt-24 pb-16 md:pt-28 md:pb-20">
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 w-full container-site pt-28 pb-16 md:pt-32 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
               <motion.div variants={fadeUp} custom={0} initial="hidden" animate="visible">
