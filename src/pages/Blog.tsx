@@ -32,7 +32,7 @@ export default function Blog() {
 
       {/* Categories */}
       <section className="py-8 bg-white border-b border-gray-100 sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="flex flex-wrap gap-2">
             {categories.map(cat => (
               <button
@@ -53,7 +53,7 @@ export default function Blog() {
 
       {/* Posts */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             {filtered.map((post, i) => (
               <AnimatedSection key={post.id} delay={i * 0.1}>

@@ -16,7 +16,7 @@ export default function CTASection({
 }: Props) {
   return (
     <section className={`py-16 md:py-20 ${dark ? 'bg-navy' : 'bg-gradient-to-r from-orange to-orange-light'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="container-site text-center">
         <AnimatedSection>
           <h2 className="font-heading font-extrabold text-2xl md:text-3xl lg:text-5xl text-white mb-4">
             {title}

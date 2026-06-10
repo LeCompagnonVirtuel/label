@@ -13,7 +13,7 @@ export default function PageHero({ badge, title, description }: Props) {
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 right-10 w-96 h-96 bg-orange rounded-full blur-3xl" />
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 container-site">
         <AnimatedSection>
           {badge && (
             <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">

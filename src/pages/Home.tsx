@@ -20,7 +20,7 @@ export default function Home() {
           <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-500 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
+        <div className="relative z-10 w-full container-site pt-28 pb-20">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <AnimatedSection animation="fade-right">
@@ -127,7 +127,7 @@ export default function Home() {
 
       {/* STATS SECTION */}
       <section className="bg-navy py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <Counter end={company.stats.projects} suffix="+" label="Projets Réalisés" />
             <Counter end={company.stats.clients} suffix="+" label="Clients Satisfaits" />
@@ -139,7 +139,7 @@ export default function Home() {
 
       {/* SERVICES SECTION */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Nos Expertises
@@ -175,7 +175,7 @@ export default function Home() {
 
       {/* WHY US SECTION */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <AnimatedSection animation="fade-right">
@@ -242,7 +242,7 @@ export default function Home() {
 
       {/* PORTFOLIO PREVIEW */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Portfolio
@@ -316,7 +316,7 @@ export default function Home() {
 
       {/* PROCESS SECTION */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Notre Processus
@@ -353,7 +353,7 @@ export default function Home() {
 
       {/* TESTIMONIALS */}
       <section className="py-20 bg-navy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Témoignages
@@ -396,7 +396,7 @@ export default function Home() {
 
       {/* ZONE D'INTERVENTION */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection animation="fade-right">
               <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
@@ -452,7 +452,7 @@ export default function Home() {
 
       {/* TRUST SECTION */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Confiance & Fiabilité

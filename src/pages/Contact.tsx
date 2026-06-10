@@ -35,7 +35,7 @@ export default function Contact() {
 
       {/* Contact Info Cards */}
       <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 -mt-16 md:-mt-20 relative z-10">
             {[
               { icon: Phone, title: 'Téléphone', lines: [company.contact.phone, company.contact.phoneSecondary], href: `tel:${company.contact.phoneClean}`, color: 'bg-navy' },
@@ -66,7 +66,7 @@ export default function Contact() {
 
       {/* Form + Map */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Form */}
             <AnimatedSection animation="fade-right">

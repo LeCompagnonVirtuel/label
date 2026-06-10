@@ -24,7 +24,7 @@ export default function About() {
 
       {/* Stats */}
       <section className="bg-navy py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <Counter end={company.stats.projects} suffix="+" label="Projets Réalisés" />
             <Counter end={company.stats.clients} suffix="+" label="Clients Satisfaits" />
@@ -36,7 +36,7 @@ export default function About() {
 
       {/* Presentation */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection animation="fade-right">
               <div className="relative">
@@ -87,7 +87,7 @@ export default function About() {
 
       {/* Mission Vision */}
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid md:grid-cols-2 gap-8">
             <AnimatedSection animation="fade-up">
               <div className="bg-white rounded-2xl p-8 premium-shadow h-full">
@@ -118,7 +118,7 @@ export default function About() {
 
       {/* Values */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Nos Valeurs
@@ -150,7 +150,7 @@ export default function About() {
 
       {/* Team */}
       <section className="py-20 bg-navy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <AnimatedSection className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-4 py-2 rounded-full text-sm font-medium mb-4">
               Notre Équipe

@@ -27,7 +27,7 @@ export function ServicesList() {
       />
 
       <section className="py-20 bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {company.services.map((service, i) => (
               <AnimatedSection key={service.id} delay={i * 0.1}>
@@ -78,7 +78,7 @@ export function ServiceDetail() {
 
       {/* Content */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-site">
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
               <AnimatedSection>
