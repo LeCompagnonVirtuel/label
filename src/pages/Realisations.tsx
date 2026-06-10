@@ -89,7 +89,7 @@ export default function Realisations() {
               <p className="text-steel text-lg">Aucun projet trouvé pour cette recherche.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filtered.map((project, i) => (
                 <AnimatedSection key={project.id} delay={i * 0.1}>
                   <div

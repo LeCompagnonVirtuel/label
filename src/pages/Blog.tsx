@@ -54,7 +54,7 @@ export default function Blog() {
       {/* Posts */}
       <section className="py-20 bg-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             {filtered.map((post, i) => (
               <AnimatedSection key={post.id} delay={i * 0.1}>
                 <article className="bg-white rounded-2xl overflow-hidden premium-shadow premium-shadow-hover transition-all duration-500 hover:-translate-y-2 group">

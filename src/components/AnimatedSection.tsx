@@ -21,8 +21,8 @@ export default function AnimatedSection({ children, className = '', animation = 
   return (
     <div
       ref={ref}
-      className={`${className} ${isVisible ? animClass : 'opacity-0'}`}
-      style={{ animationDelay: `${delay}s` }}
+      className={`${className} ${isVisible ? animClass : ''}`}
+      style={isVisible ? { animationDelay: `${delay}s` } : undefined}
     >
       {children}
     </div>

@@ -20,14 +20,8 @@ export default function Home() {
           <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-500 rounded-full blur-3xl" />
         </div>
 
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
-        }} />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <AnimatedSection animation="fade-right">
                 <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -134,7 +128,7 @@ export default function Home() {
       {/* STATS SECTION */}
       <section className="bg-navy py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <Counter end={company.stats.projects} suffix="+" label="Projets Réalisés" />
             <Counter end={company.stats.clients} suffix="+" label="Clients Satisfaits" />
             <Counter end={company.stats.years} suffix="+" label="Années d'Expérience" />
@@ -159,7 +153,7 @@ export default function Home() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {company.services.map((service, i) => (
               <AnimatedSection key={service.id} delay={i * 0.1}>
                 <ServiceCard service={service} index={i} />
@@ -197,7 +191,7 @@ export default function Home() {
                 </p>
               </AnimatedSection>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4 mt-2">
                 {company.whyUs.map((item, i) => (
                   <AnimatedSection key={i} delay={i * 0.1} animation="fade-right">
                     <div className="flex items-start gap-3 p-4 rounded-xl hover:bg-light transition-all group">
@@ -261,7 +255,7 @@ export default function Home() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {company.projects.slice(0, 6).map((project, i) => (
               <AnimatedSection key={project.id} delay={i * 0.1}>
                 <Link
@@ -338,7 +332,7 @@ export default function Home() {
           <div className="relative">
             <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-orange/50 via-orange to-orange/50 -translate-y-1/2" />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
               {company.process.map((step, i) => (
                 <AnimatedSection key={i} delay={i * 0.15} className="relative">
                   <div className="text-center">
@@ -372,7 +366,7 @@ export default function Home() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {company.testimonials.map((t, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-orange/30 transition-all h-full flex flex-col">
@@ -417,7 +411,7 @@ export default function Home() {
                 Basée à Yamoussoukro, LABEL PRO CI intervient dans les principales villes de Côte d'Ivoire pour répondre à tous vos besoins en construction et génie civil.
               </p>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {company.zones.map((zone, i) => (
                   <div key={i} className="flex items-center gap-2 bg-white p-3 rounded-xl shadow-sm">
                     <MapPin size={16} className="text-orange flex-shrink-0" />
@@ -468,7 +462,7 @@ export default function Home() {
             </h2>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {[
               { icon: Clock, title: 'Devis rapide', desc: 'Nous vous fournissons un devis détaillé sous 24 à 48 heures.' },
               { icon: CheckCircle, title: 'Respect des délais', desc: 'Nous nous engageons sur des calendriers réalistes et les respectons.' },
@@ -478,7 +472,7 @@ export default function Home() {
               { icon: Star, title: 'Suivi du chantier', desc: 'Rapports réguliers et transparence totale sur l\'avancement des travaux.' },
             ].map((item, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="flex items-start gap-4 p-6 rounded-2xl bg-light hover:bg-orange/5 transition-all group">
+                <div className="flex items-start gap-4 p-6 rounded-2xl bg-light hover:bg-orange/5 transition-all group h-full">
                   <div className="w-12 h-12 bg-orange/10 group-hover:bg-orange rounded-xl flex items-center justify-center flex-shrink-0 transition-all">
                     <item.icon size={24} className="text-orange group-hover:text-white transition-colors" />
                   </div>

@@ -118,7 +118,7 @@ export default function Devis() {
       <section className="py-20 bg-light">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Progress */}
-          <div className="mb-10">
+          <div className="mb-8 md:mb-10">
             <div className="flex items-center justify-between mb-4">
               {['Informations', 'Projet', 'Description'].map((label, i) => (
                 <div key={i} className="flex items-center gap-2">

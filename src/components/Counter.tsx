@@ -17,11 +17,11 @@ export default function Counter({ end, suffix = '', label, duration = 2000 }: Pr
   }, [isVisible, setIsActive]);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="text-4xl md:text-5xl font-heading font-extrabold text-orange mb-2">
+    <div ref={ref} className="text-center py-2">
+      <div className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-orange mb-2">
         {isVisible ? count : 0}{suffix}
       </div>
-      <div className="text-white/80 font-body text-sm md:text-base uppercase tracking-wider">
+      <div className="text-white/70 text-xs md:text-sm uppercase tracking-wider">
         {label}
       </div>
     </div>

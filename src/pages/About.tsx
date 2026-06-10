@@ -128,7 +128,7 @@ export default function About() {
             </h2>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {company.values.map((value, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="text-center p-6 rounded-2xl bg-light hover:bg-orange/5 transition-all group h-full">
@@ -163,7 +163,7 @@ export default function About() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[
               { name: 'Direction Générale', role: 'Stratégie & Développement', desc: 'Pilotage stratégique et développement de l\'entreprise.' },
               { name: 'Bureau d\'Études', role: 'Conception & Ingénierie', desc: 'Études techniques, calculs et conception de projets.' },
