@@ -1,25 +1,50 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, MessageCircle, ChevronDown, Mail, Clock, MapPin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Phone, MessageCircle, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { company } from '../config/company';
 
 const navItems = [
-  { label: 'Accueil', path: '/' },
-  { label: 'À Propos', path: '/a-propos' },
-  {
-    label: 'Services',
-    path: '/services',
-    children: company.services.map(s => ({ label: s.title, path: `/services/${s.id}`, desc: s.shortDesc })),
-  },
-  { label: 'Réalisations', path: '/realisations' },
-  { label: 'Blog', path: '/blog' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Accueil', path: '/', num: '01' },
+  { label: 'À Propos', path: '/a-propos', num: '02' },
+  { label: 'Services', path: '/services', num: '03' },
+  { label: 'Réalisations', path: '/realisations', num: '04' },
+  { label: 'Blog', path: '/blog', num: '05' },
+  { label: 'Contact', path: '/contact', num: '06' },
 ];
+
+const overlayVariants = {
+  hidden: { clipPath: 'circle(0% at calc(100% - 40px) 32px)' },
+  visible: {
+    clipPath: 'circle(150% at calc(100% - 40px) 32px)',
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  },
+  exit: {
+    clipPath: 'circle(0% at calc(100% - 40px) 32px)',
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  },
+};
+
+const linkVariants = {
+  hidden: { opacity: 0, x: -40 },
+  visible: (i: number) => ({
+    opacity: 1, x: 0,
+    transition: { delay: 0.15 + i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  }),
+  exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
+};
+
+const infoVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { delay: 0.4 + i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  }),
+};
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -34,281 +59,271 @@ export default function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  const closeMenus = useCallback(() => {
-    setIsOpen(false);
-    setDropdownOpen(false);
-  }, []);
+  const closeMenu = useCallback(() => setIsOpen(false), []);
 
   const isHome = location.pathname === '/';
-  const showTopBar = !scrolled && isHome;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      {/* TOP BAR */}
-      <div className={`transition-all duration-300 overflow-hidden ${showTopBar ? 'max-h-10 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="bg-navy-dark/90 backdrop-blur-sm border-b border-white/5">
-          <div className="container-site">
-            <div className="flex items-center justify-between h-10 text-[11px] text-white/50">
-              <div className="hidden md:flex items-center gap-5">
-                <a href={`tel:${company.contact.phoneClean}`} className="flex items-center gap-1.5 hover:text-orange transition-colors">
-                  <Phone size={11} /> {company.contact.phone}
-                </a>
-                <a href={`mailto:${company.contact.email}`} className="flex items-center gap-1.5 hover:text-orange transition-colors">
-                  <Mail size={11} /> {company.contact.email}
-                </a>
-                <span className="flex items-center gap-1.5">
-                  <MapPin size={11} /> {company.contact.address}
-                </span>
-              </div>
-              <div className="hidden md:flex items-center gap-4">
-                <span className="flex items-center gap-1.5">
-                  <Clock size={11} /> {company.hours.weekdays}
-                </span>
-                <div className="flex items-center gap-2">
-                  {[
-                    { label: 'FB', href: company.social.facebook },
-                    { label: 'IN', href: company.social.linkedin },
-                    { label: 'IG', href: company.social.instagram },
-                  ].map(s => (
-                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                      className="w-5 h-5 bg-white/10 hover:bg-orange rounded flex items-center justify-center text-[8px] font-bold transition-colors">
-                      {s.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              <div className="flex md:hidden items-center gap-3 w-full justify-between">
-                <a href={`tel:${company.contact.phoneClean}`} className="flex items-center gap-1.5 hover:text-orange transition-colors">
-                  <Phone size={11} /> {company.contact.phone}
-                </a>
-                <a href={`https://wa.me/${company.contact.whatsappClean}`} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-green-400 transition-colors">
-                  <MessageCircle size={11} /> WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* MAIN NAV */}
-      <div className={`transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.08)]'
-          : 'bg-transparent'
-      }`}>
+    <>
+      {/* MINIMAL HEADER BAR */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
+          isOpen
+            ? 'bg-transparent'
+            : scrolled
+              ? 'bg-white/90 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)]'
+              : isHome
+                ? 'bg-transparent'
+                : 'bg-navy/95 backdrop-blur-lg'
+        }`}
+      >
         <div className="container-site">
-          <div className="flex items-center justify-between h-16 md:h-[68px]">
+          <div className="flex items-center justify-between h-16 md:h-[72px]">
             {/* LOGO */}
-            <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
-              <div className="relative">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-heading font-black text-lg transition-all duration-300 ${
-                  scrolled ? 'bg-orange text-white' : 'bg-orange text-white shadow-[0_4px_12px_rgba(249,115,22,0.3)]'
-                } group-hover:scale-105`}>
-                  L
-                </div>
+            <Link to="/" className="flex items-center gap-2.5 group relative z-[110]">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-heading font-black text-lg transition-all duration-300 ${
+                isOpen
+                  ? 'bg-white text-navy'
+                  : scrolled
+                    ? 'bg-orange text-white'
+                    : 'bg-orange text-white shadow-[0_4px_16px_rgba(249,115,22,0.35)]'
+              } group-hover:scale-105`}>
+                L
               </div>
               <div className="hidden sm:block">
-                <div className={`font-heading font-black text-base leading-tight transition-colors duration-300 ${
-                  scrolled ? 'text-navy' : 'text-white'
+                <div className={`font-heading font-black text-[15px] leading-tight transition-colors duration-300 ${
+                  isOpen ? 'text-white' : scrolled ? 'text-navy' : 'text-white'
                 }`}>
                   {company.name}
                 </div>
-                <div className={`text-[8px] uppercase tracking-[0.2em] font-semibold transition-colors duration-300 ${
-                  scrolled ? 'text-steel' : 'text-white/40'
+                <div className={`text-[7px] uppercase tracking-[0.25em] font-bold transition-colors duration-300 ${
+                  isOpen ? 'text-white/40' : scrolled ? 'text-steel' : 'text-white/35'
                 }`}>
                   BTP & Génie Civil
                 </div>
               </div>
             </Link>
 
-            {/* NAV DESKTOP */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) =>
-                item.children ? (
-                  <div
-                    key={item.path}
-                    className="relative"
-                    onMouseEnter={() => setDropdownOpen(true)}
-                    onMouseLeave={() => setDropdownOpen(false)}
-                  >
-                    <Link
-                      to={item.path}
-                      className={`relative px-3 py-2 rounded-lg text-[13px] font-semibold transition-colors flex items-center gap-1 ${
-                        location.pathname.startsWith(item.path)
-                          ? 'text-orange'
-                          : scrolled ? 'text-navy/70 hover:text-navy' : 'text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {item.label}
-                      <ChevronDown size={12} className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
-                      {location.pathname.startsWith(item.path) && (
-                        <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-orange rounded-full" />
-                      )}
-                    </Link>
-
-                    {/* MEGA MENU */}
-                    {dropdownOpen && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[480px] bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-100 p-4 animate-scale-in">
-                        <div className="grid grid-cols-2 gap-1">
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.path}
-                              to={child.path}
-                              className="flex items-start gap-3 p-3 rounded-xl hover:bg-orange/5 transition-colors group/item"
-                            >
-                              <div className="w-8 h-8 bg-orange/10 group-hover/item:bg-orange rounded-lg flex items-center justify-center flex-shrink-0 transition-colors mt-0.5">
-                                <div className="w-2 h-2 bg-orange group-hover/item:bg-white rounded-full transition-colors" />
-                              </div>
-                              <div>
-                                <div className="text-navy font-semibold text-xs group-hover/item:text-orange transition-colors">{child.label}</div>
-                                <div className="text-steel text-[10px] leading-relaxed line-clamp-1 mt-0.5">{child.desc}</div>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                        <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                          <Link to="/services" className="text-orange text-xs font-semibold hover:underline">
-                            Voir tous nos services →
-                          </Link>
-                          <Link to="/devis" className="bg-orange text-white px-3 py-1.5 rounded-lg text-[11px] font-semibold hover:bg-orange-dark transition-colors">
-                            Demander un devis
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`relative px-3 py-2 rounded-lg text-[13px] font-semibold transition-colors ${
-                      location.pathname === item.path
-                        ? 'text-orange'
-                        : scrolled ? 'text-navy/70 hover:text-navy' : 'text-white/80 hover:text-white'
+            {/* RIGHT SIDE */}
+            <div className="flex items-center gap-3">
+              {/* CTA desktop - only when not open */}
+              {!isOpen && (
+                <div className="hidden md:flex items-center gap-2.5">
+                  <a
+                    href={`https://wa.me/${company.contact.whatsappClean}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-semibold transition-all ${
+                      scrolled ? 'bg-[#25D366] text-white hover:bg-[#128C7E]' : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm'
                     }`}
                   >
-                    {item.label}
-                    {location.pathname === item.path && (
-                      <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-orange rounded-full" />
-                    )}
+                    <MessageCircle size={14} />
+                    <span className="hidden lg:inline">WhatsApp</span>
+                  </a>
+                  <Link
+                    to="/devis"
+                    className={`px-4 py-2 rounded-lg text-[12px] font-bold transition-all ${
+                      scrolled
+                        ? 'bg-orange text-white hover:bg-orange-dark hover:shadow-[0_4px_16px_rgba(249,115,22,0.4)]'
+                        : 'bg-orange text-white hover:bg-orange-dark shadow-[0_4px_16px_rgba(249,115,22,0.3)]'
+                    } hover:scale-[1.02]`}
+                  >
+                    Devis Gratuit
                   </Link>
-                )
+                </div>
               )}
-            </nav>
 
-            {/* CTA DESKTOP */}
-            <div className="hidden lg:flex items-center gap-2.5">
-              <a
-                href={`tel:${company.contact.phoneClean}`}
-                className={`flex items-center gap-1.5 text-[13px] font-medium transition-colors px-2.5 py-2 rounded-lg ${
-                  scrolled ? 'text-navy/60 hover:text-navy' : 'text-white/60 hover:text-white'
-                }`}
+              {/* BURGER */}
+              <button
+                aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                onClick={() => setIsOpen(!isOpen)}
+                className="relative z-[110] w-10 h-10 flex items-center justify-center rounded-xl transition-all"
               >
-                <Phone size={14} />
-                <span className="hidden xl:inline">{company.contact.phone}</span>
-              </a>
-              <a
-                href={`https://wa.me/${company.contact.whatsappClean}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#128C7E] text-white px-3.5 py-2 rounded-lg text-[13px] font-semibold transition-colors"
-              >
-                <MessageCircle size={14} />
-                <span className="hidden xl:inline">WhatsApp</span>
-              </a>
-              <Link
-                to="/devis"
-                className="bg-orange hover:bg-orange-dark text-white px-4 py-2 rounded-lg text-[13px] font-bold transition-all hover:shadow-[0_4px_16px_rgba(249,115,22,0.4)] hover:scale-[1.02]"
-              >
-                Devis Gratuit
-              </Link>
+                <AnimatePresence mode="wait">
+                  {isOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X size={22} className="text-white" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex flex-col items-center gap-[5px]"
+                    >
+                      <span className={`block w-5 h-[2px] rounded-full transition-colors ${scrolled ? 'bg-navy' : 'bg-white'}`} />
+                      <span className={`block w-4 h-[2px] rounded-full transition-colors ${scrolled ? 'bg-navy' : 'bg-white'}`} />
+                      <span className={`block w-5 h-[2px] rounded-full transition-colors ${scrolled ? 'bg-navy' : 'bg-white'}`} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
             </div>
-
-            {/* BURGER */}
-            <button
-              aria-label={isOpen ? 'Fermer' : 'Menu'}
-              onClick={() => setIsOpen(!isOpen)}
-              className={`lg:hidden p-2 -mr-2 transition-colors ${scrolled ? 'text-navy' : 'text-white'}`}
-            >
-              {isOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* MOBILE MENU */}
-      {isOpen && (
-        <div className="lg:hidden fixed inset-0 top-0 bg-white z-[60] overflow-y-auto">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-gray-100">
-            <Link to="/" onClick={closeMenus} className="flex items-center gap-2">
-              <div className="w-9 h-9 bg-orange rounded-lg flex items-center justify-center font-heading font-black text-base text-white">L</div>
-              <div>
-                <div className="font-heading font-black text-sm text-navy">{company.name}</div>
-                <div className="text-[7px] uppercase tracking-[0.2em] text-steel font-semibold">BTP & Génie Civil</div>
-              </div>
-            </Link>
-            <button aria-label="Fermer" onClick={closeMenus} className="p-2 text-navy">
-              <X size={22} />
-            </button>
-          </div>
+      {/* FULLSCREEN OVERLAY */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed inset-0 z-[90] bg-navy overflow-hidden"
+          >
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-[0.03]">
+              <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange rounded-full blur-[200px]" />
+              <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500 rounded-full blur-[200px]" />
+            </div>
 
-          <div className="px-4 py-5 space-y-1">
-            {navItems.map((item) => (
-              <div key={item.path}>
-                <Link
-                  to={item.path}
-                  onClick={closeMenus}
-                  className={`block px-4 py-3 rounded-xl text-[15px] font-semibold transition-colors ${
-                    location.pathname === item.path
-                      ? 'text-orange bg-orange/5'
-                      : 'text-navy/80 hover:text-orange hover:bg-orange/5'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-                {item.children && (
-                  <div className="ml-3 space-y-0.5 mt-1 mb-2 border-l-2 border-orange/10 pl-3">
-                    {item.children.map((child) => (
+            {/* Grid pattern */}
+            <div className="absolute inset-0 opacity-[0.04]" style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+              backgroundSize: '80px 80px',
+            }} />
+
+            <div className="relative z-10 h-full flex flex-col justify-center container-site py-20">
+              <div className="grid lg:grid-cols-[1fr,auto] gap-10 lg:gap-20 items-center h-full">
+                {/* NAVIGATION */}
+                <nav className="flex flex-col justify-center">
+                  {navItems.map((item, i) => (
+                    <motion.div
+                      key={item.path}
+                      custom={i}
+                      variants={linkVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
                       <Link
-                        key={child.path}
-                        to={child.path}
-                        onClick={closeMenus}
-                        className="block px-3 py-2 text-[13px] text-steel hover:text-orange transition-colors rounded-lg"
+                        to={item.path}
+                        onClick={closeMenu}
+                        className="group flex items-center gap-4 py-3 md:py-4 border-b border-white/5 hover:border-orange/20 transition-colors"
                       >
-                        {child.label}
+                        <span className="text-orange/40 text-[11px] font-mono font-bold group-hover:text-orange transition-colors">
+                          {item.num}
+                        </span>
+                        <span className={`font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl transition-colors duration-300 ${
+                          location.pathname === item.path ? 'text-orange' : 'text-white/80 group-hover:text-white'
+                        }`}>
+                          {item.label}
+                        </span>
+                        <ArrowRight size={20} className="text-white/0 group-hover:text-orange transition-all ml-auto -translate-x-4 group-hover:translate-x-0" />
                       </Link>
-                    ))}
-                  </div>
-                )}
+                    </motion.div>
+                  ))}
+
+                  {/* CTA in menu */}
+                  <motion.div
+                    custom={navItems.length}
+                    variants={linkVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="mt-6 flex flex-col sm:flex-row gap-3"
+                  >
+                    <Link
+                      to="/devis"
+                      onClick={closeMenu}
+                      className="inline-flex items-center justify-center gap-2 bg-orange hover:bg-orange-dark text-white px-6 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
+                    >
+                      Demander un devis gratuit <ArrowRight size={16} />
+                    </Link>
+                    <a
+                      href={`tel:${company.contact.phoneClean}`}
+                      className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white px-6 py-3.5 rounded-xl font-semibold text-sm transition-colors border border-white/10"
+                    >
+                      <Phone size={16} /> Appeler maintenant
+                    </a>
+                  </motion.div>
+                </nav>
+
+                {/* INFO PANEL */}
+                <div className="hidden lg:flex flex-col justify-center gap-8 min-w-[280px]">
+                  {/* Contact */}
+                  <motion.div custom={0} variants={infoVariants} initial="hidden" animate="visible">
+                    <h4 className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold mb-3">Contact</h4>
+                    <div className="space-y-2.5">
+                      <a href={`tel:${company.contact.phoneClean}`} className="flex items-center gap-2.5 text-white/60 hover:text-orange transition-colors text-sm">
+                        <Phone size={14} /> {company.contact.phone}
+                      </a>
+                      <a href={`tel:${company.contact.phoneSecondaryClean}`} className="flex items-center gap-2.5 text-white/60 hover:text-orange transition-colors text-sm">
+                        <Phone size={14} /> {company.contact.phoneSecondary}
+                      </a>
+                      <a href={`mailto:${company.contact.email}`} className="flex items-center gap-2.5 text-white/60 hover:text-orange transition-colors text-sm">
+                        <Mail size={14} /> {company.contact.email}
+                      </a>
+                      <div className="flex items-start gap-2.5 text-white/60 text-sm">
+                        <MapPin size={14} className="mt-0.5 flex-shrink-0" /> {company.contact.fullAddress}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* WhatsApp */}
+                  <motion.div custom={1} variants={infoVariants} initial="hidden" animate="visible">
+                    <a
+                      href={`https://wa.me/${company.contact.whatsappClean}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 rounded-xl p-4 transition-colors"
+                    >
+                      <div className="w-10 h-10 bg-[#25D366] rounded-lg flex items-center justify-center">
+                        <MessageCircle size={18} className="text-white" />
+                      </div>
+                      <div>
+                        <div className="text-white font-semibold text-sm">Écrivez-nous</div>
+                        <div className="text-white/40 text-xs">Réponse rapide garantie</div>
+                      </div>
+                    </a>
+                  </motion.div>
+
+                  {/* Hours */}
+                  <motion.div custom={2} variants={infoVariants} initial="hidden" animate="visible">
+                    <h4 className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold mb-3">Horaires</h4>
+                    <div className="space-y-1 text-sm text-white/50">
+                      <div>{company.hours.weekdays}</div>
+                      <div>{company.hours.saturday}</div>
+                      <div className="text-white/25">{company.hours.sunday}</div>
+                    </div>
+                  </motion.div>
+
+                  {/* Social */}
+                  <motion.div custom={3} variants={infoVariants} initial="hidden" animate="visible">
+                    <h4 className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold mb-3">Suivez-nous</h4>
+                    <div className="flex gap-2">
+                      {[
+                        { label: 'FB', href: company.social.facebook },
+                        { label: 'IN', href: company.social.linkedin },
+                        { label: 'IG', href: company.social.instagram },
+                        { label: 'YT', href: company.social.youtube },
+                      ].map(s => (
+                        <a
+                          key={s.label}
+                          href={s.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-9 h-9 bg-white/5 hover:bg-orange rounded-lg flex items-center justify-center text-[10px] font-bold text-white/40 hover:text-white transition-all"
+                        >
+                          {s.label}
+                        </a>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
               </div>
-            ))}
-          </div>
-
-          <div className="px-4 pb-6 space-y-2 border-t border-gray-100 pt-4">
-            <a href={`tel:${company.contact.phoneClean}`}
-              className="flex items-center justify-center gap-2 bg-navy text-white px-4 py-3 rounded-xl font-semibold text-sm">
-              <Phone size={16} /> Appeler maintenant
-            </a>
-            <a href={`https://wa.me/${company.contact.whatsappClean}`} target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-xl font-semibold text-sm">
-              <MessageCircle size={16} /> WhatsApp
-            </a>
-            <Link to="/devis" onClick={closeMenus}
-              className="flex items-center justify-center gap-2 bg-orange text-white px-4 py-3 rounded-xl font-bold text-sm">
-              Demander un Devis Gratuit
-            </Link>
-          </div>
-
-          <div className="px-4 pb-8 text-center">
-            <div className="text-[11px] text-steel space-y-1">
-              <div>{company.contact.phone} · {company.contact.phoneSecondary}</div>
-              <div>{company.contact.email}</div>
-              <div>{company.contact.fullAddress}</div>
             </div>
-          </div>
-        </div>
-      )}
-    </header>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
