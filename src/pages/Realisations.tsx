@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { MapPin, Clock, ArrowRight, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { company } from '../config/company';
+import { projectImageMap } from '../config/images';
 import SEOHead from '../components/SEOHead';
 import AnimatedSection from '../components/AnimatedSection';
 import CTASection from '../components/CTASection';
 import PageHero from '../components/PageHero';
 
 const categories = ['Tous', ...Array.from(new Set(company.projects.map(p => p.category)))];
-const projectEmojis: Record<string, string> = {
-  'Construction': '🏗️', 'Travaux Publics': '🛤️', 'Génie Civil': '🌉', 'VRD': '🏘️',
-  'Assainissement': '💧', 'Terrassement': '🚜', 'Réhabilitation': '🔨',
-};
 
 export default function Realisations() {
   const [activeCategory, setActiveCategory] = useState('Tous');
@@ -78,13 +75,14 @@ export default function Realisations() {
               {filtered.map((project, i) => (
                 <AnimatedSection key={project.id} delay={i * 0.04}>
                   <div onClick={() => setSelectedProject(i)} className="group bg-white rounded-xl overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                    <div className="relative h-40 md:h-48 bg-gradient-to-br from-navy to-navy-light overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-5xl opacity-15 group-hover:scale-110 transition-transform duration-500">
-                          {projectEmojis[project.category] || '🏗️'}
-                        </div>
-                      </div>
+                    <div className="relative h-40 md:h-48 overflow-hidden">
+                      <img
+                        src={projectImageMap[project.category] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80'}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/20 to-transparent" />
                       <div className="absolute top-3 left-3 z-20">
                         <span className="bg-orange text-white px-2.5 py-0.5 rounded-full text-[10px] font-medium">{project.category}</span>
                       </div>
@@ -116,10 +114,13 @@ export default function Realisations() {
       {currentProject && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedProject(null)}>
           <div className="bg-white rounded-2xl max-w-xl w-full max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="relative h-48 md:h-56 bg-gradient-to-br from-navy to-navy-light rounded-t-2xl overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-7xl opacity-20">{projectEmojis[currentProject.category] || '🏗️'}</div>
-              </div>
+            <div className="relative h-48 md:h-56 overflow-hidden rounded-t-2xl">
+              <img
+                src={projectImageMap[currentProject.category] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80'}
+                alt={currentProject.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent" />
               <button onClick={() => setSelectedProject(null)} className="absolute top-3 right-3 w-8 h-8 bg-white/15 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/25 transition-colors z-10">
                 <X size={16} />
               </button>

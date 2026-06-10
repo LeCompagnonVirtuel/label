@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 import { company } from '../config/company';
+import { images } from '../config/images';
 import SEOHead from '../components/SEOHead';
 import AnimatedSection from '../components/AnimatedSection';
 import CTASection from '../components/CTASection';
@@ -43,8 +44,14 @@ export default function Blog() {
               {filtered.map((post, i) => (
                 <AnimatedSection key={post.id} delay={i * 0.05}>
                   <article className="bg-white rounded-xl overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 hover:-translate-y-1 group">
-                    <div className="relative h-40 md:h-44 bg-gradient-to-br from-navy to-navy-light overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    <div className="relative h-40 md:h-44 overflow-hidden">
+                      <img
+                        src={images.blog[i % images.blog.length]}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
                       <div className="absolute top-3 left-3">
                         <span className="flex items-center gap-1 bg-orange text-white px-2.5 py-0.5 rounded-full text-[10px] font-medium">
                           <Tag size={10} /> {post.category}

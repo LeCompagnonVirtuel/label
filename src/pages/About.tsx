@@ -1,5 +1,7 @@
 import { Shield, Target, Eye, Heart, Award, Users, Building2, MapPin, Calendar, Briefcase } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { company } from '../config/company';
+import { images } from '../config/images';
 import SEOHead from '../components/SEOHead';
 import AnimatedSection from '../components/AnimatedSection';
 import Counter from '../components/Counter';
@@ -36,24 +38,30 @@ export default function About() {
         <div className="container-site">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <AnimatedSection animation="fade-right">
-              <div className="relative">
-                <div className="bg-gradient-to-br from-navy to-navy-light rounded-2xl p-6">
-                  <div className="grid grid-cols-2 gap-3">
+              <div className="relative rounded-2xl overflow-hidden">
+                <img src={images.about.team} alt="Équipe LABEL PRO CI" className="w-full h-64 md:h-80 object-cover" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="grid grid-cols-2 gap-2">
                     {[
                       { icon: Building2, label: 'Construction' },
                       { icon: Users, label: 'Équipe' },
                       { icon: MapPin, label: 'Yamoussoukro' },
                       { icon: Calendar, label: `${company.stats.years}+ Ans` },
                     ].map((item, i) => (
-                      <div key={i} className="bg-white/10 rounded-xl p-3 text-center">
-                        <item.icon size={28} className="text-orange mx-auto mb-1.5" />
-                        <div className="text-white font-semibold text-xs">{item.label}</div>
-                      </div>
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        className="bg-white/10 backdrop-blur-sm rounded-lg p-2.5 text-center"
+                      >
+                        <item.icon size={20} className="text-orange mx-auto mb-1" />
+                        <div className="text-white font-semibold text-[10px]">{item.label}</div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
-                <div className="absolute -bottom-3 -right-3 w-16 h-16 bg-orange rounded-xl flex items-center justify-center shadow-xl">
-                  <Award size={28} className="text-white" />
                 </div>
               </div>
             </AnimatedSection>
