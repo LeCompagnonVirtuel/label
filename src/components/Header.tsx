@@ -23,10 +23,19 @@ export default function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
 
   const closeMenus = useCallback(() => {
     setIsOpen(false);
@@ -35,29 +44,25 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-navy/95 backdrop-blur-md shadow-lg py-2'
-          : 'bg-transparent py-4'
+          ? 'bg-navy/95 backdrop-blur-lg shadow-lg'
+          : 'bg-transparent'
       }`}
     >
       <div className="container-site">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-orange rounded-lg flex items-center justify-center font-heading font-extrabold text-white text-lg group-hover:scale-110 transition-transform">
+        <div className="flex items-center justify-between h-16 md:h-18">
+          <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="w-9 h-9 bg-orange rounded-lg flex items-center justify-center font-heading font-extrabold text-white text-base group-hover:scale-105 transition-transform">
               L
             </div>
-            <div>
-              <div className="font-heading font-extrabold text-white text-lg leading-tight">
-                {company.name}
-              </div>
-              <div className="text-white/60 text-[10px] uppercase tracking-widest">
-                BTP & Génie Civil
-              </div>
+            <div className="hidden sm:block">
+              <div className="font-heading font-extrabold text-white text-base leading-tight">{company.name}</div>
+              <div className="text-white/50 text-[9px] uppercase tracking-[0.15em]">BTP & Génie Civil</div>
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5">
             {navItems.map((item) =>
               item.children ? (
                 <div
@@ -68,22 +73,20 @@ export default function Header() {
                 >
                   <Link
                     to={item.path}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1 ${
-                      location.pathname.startsWith(item.path)
-                        ? 'text-orange'
-                        : 'text-white/90 hover:text-orange'
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+                      location.pathname.startsWith(item.path) ? 'text-orange' : 'text-white/80 hover:text-white'
                     }`}
                   >
                     {item.label}
-                    <ChevronDown size={14} />
+                    <ChevronDown size={13} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                   </Link>
                   {dropdownOpen && (
-                    <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 animate-scale-in">
+                    <div className="absolute top-full left-0 mt-1 w-60 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 animate-scale-in">
                       {item.children.map((child) => (
                         <Link
                           key={child.path}
                           to={child.path}
-                          className="block px-4 py-2.5 text-sm text-steel hover:text-orange hover:bg-orange/5 transition-all"
+                          className="block px-4 py-2 text-sm text-steel hover:text-orange hover:bg-orange/5 transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -95,10 +98,8 @@ export default function Header() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    location.pathname === item.path
-                      ? 'text-orange'
-                      : 'text-white/90 hover:text-orange'
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    location.pathname === item.path ? 'text-orange' : 'text-white/80 hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -107,50 +108,50 @@ export default function Header() {
             )}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
             <a
               href={`tel:${company.contact.phoneClean}`}
-              className="flex items-center gap-2 text-white/80 hover:text-orange transition-colors text-sm"
+              className="flex items-center gap-1.5 text-white/70 hover:text-orange transition-colors text-sm px-2 py-1.5"
             >
-              <Phone size={16} />
-              <span>{company.contact.phone}</span>
+              <Phone size={14} />
+              <span className="hidden xl:inline">{company.contact.phone}</span>
             </a>
             <a
               href={`https://wa.me/${company.contact.whatsappClean}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              <MessageCircle size={16} />
+              <MessageCircle size={14} />
               WhatsApp
             </a>
             <Link
               to="/devis"
-              className="bg-orange hover:bg-orange-dark text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 animate-pulse-glow"
+              className="bg-orange hover:bg-orange-dark text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 animate-pulse-glow"
             >
-              Demander un Devis
+              Devis Gratuit
             </Link>
           </div>
 
           <button
             aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden text-white p-2"
+            className="lg:hidden text-white p-2 -mr-2"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {isOpen && (
-        <div className="lg:hidden bg-navy-dark/98 backdrop-blur-lg border-t border-white/10 animate-fade-up">
-          <div className="px-4 py-4 space-y-1">
+        <div className="lg:hidden fixed inset-0 top-16 bg-navy/98 backdrop-blur-xl z-40 overflow-y-auto">
+          <div className="container-site py-6 space-y-1">
             {navItems.map((item) => (
               <div key={item.path}>
                 <Link
                   to={item.path}
                   onClick={closeMenus}
-                  className={`block px-4 py-3 rounded-lg text-base font-medium transition-all ${
+                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                     location.pathname === item.path
                       ? 'text-orange bg-white/5'
                       : 'text-white/90 hover:text-orange hover:bg-white/5'
@@ -158,14 +159,14 @@ export default function Header() {
                 >
                   {item.label}
                 </Link>
-                {item.children && location.pathname.startsWith('/services') && (
-                  <div className="ml-4 space-y-1">
+                {item.children && (
+                  <div className="ml-4 space-y-0.5 mt-1 mb-2">
                     {item.children.map((child) => (
                       <Link
                         key={child.path}
                         to={child.path}
                         onClick={closeMenus}
-                        className="block px-4 py-2 text-sm text-white/70 hover:text-orange transition-all"
+                        className="block px-4 py-2 text-sm text-white/60 hover:text-orange transition-colors rounded-lg"
                       >
                         {child.label}
                       </Link>
@@ -174,26 +175,25 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <div className="pt-4 space-y-2">
+            <div className="pt-4 space-y-2 border-t border-white/10 mt-4">
               <a
                 href={`tel:${company.contact.phoneClean}`}
-                className="flex items-center justify-center gap-2 bg-white/10 text-white px-4 py-3 rounded-lg font-medium"
+                className="flex items-center justify-center gap-2 bg-white/10 text-white px-4 py-3 rounded-xl font-medium text-sm"
               >
-                <Phone size={18} />
-                Appeler maintenant
+                <Phone size={16} /> Appeler maintenant
               </a>
               <a
                 href={`https://wa.me/${company.contact.whatsappClean}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-3 rounded-lg font-medium"
+                className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-3 rounded-xl font-medium text-sm"
               >
-                <MessageCircle size={18} />
-                WhatsApp
+                <MessageCircle size={16} /> WhatsApp
               </a>
               <Link
                 to="/devis"
-                className="flex items-center justify-center gap-2 bg-orange text-white px-4 py-3 rounded-lg font-semibold"
+                onClick={closeMenus}
+                className="flex items-center justify-center gap-2 bg-orange text-white px-4 py-3 rounded-xl font-semibold text-sm"
               >
                 Demander un Devis
               </Link>

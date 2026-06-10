@@ -15,38 +15,35 @@ export default function CTASection({
   dark = false,
 }: Props) {
   return (
-    <section className={`py-16 md:py-20 ${dark ? 'bg-navy' : 'bg-gradient-to-r from-orange to-orange-light'}`}>
+    <section className={`py-14 md:py-20 ${dark ? 'bg-navy' : 'bg-gradient-to-r from-orange to-orange-light'}`}>
       <div className="container-site text-center">
         <AnimatedSection>
-          <h2 className="font-heading font-extrabold text-2xl md:text-3xl lg:text-5xl text-white mb-4">
+          <h2 className="font-heading font-extrabold text-xl sm:text-2xl md:text-4xl lg:text-5xl text-white mb-3">
             {title}
           </h2>
-          <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto mb-8 md:mb-10">
+          <p className="text-white/85 text-sm md:text-base max-w-xl mx-auto mb-7">
             {subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 md:gap-3">
             <a
               href={`tel:${company.contact.phoneClean}`}
-              className="flex items-center gap-2 bg-white text-navy hover:bg-gray-100 px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all hover:scale-105 w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 bg-white text-navy hover:bg-gray-100 px-5 md:px-7 py-3 md:py-3.5 rounded-xl font-semibold text-sm md:text-base transition-all hover:scale-[1.02] w-full sm:w-auto justify-center"
             >
-              <Phone size={20} />
-              Appeler maintenant
+              <Phone size={18} /> Appeler maintenant
             </a>
             <a
               href={`https://wa.me/${company.contact.whatsappClean}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all hover:scale-105 w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 md:px-7 py-3 md:py-3.5 rounded-xl font-semibold text-sm md:text-base transition-all hover:scale-[1.02] w-full sm:w-auto justify-center"
             >
-              <MessageCircle size={20} />
-              WhatsApp
+              <MessageCircle size={18} /> WhatsApp
             </a>
             <Link
               to="/devis"
-              className="flex items-center gap-2 bg-navy hover:bg-navy-light text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all hover:scale-105 w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 bg-navy hover:bg-navy-light text-white px-5 md:px-7 py-3 md:py-3.5 rounded-xl font-semibold text-sm md:text-base transition-all hover:scale-[1.02] w-full sm:w-auto justify-center"
             >
-              <FileText size={20} />
-              Demander un devis
+              <FileText size={18} /> Demander un devis
             </Link>
           </div>
         </AnimatedSection>

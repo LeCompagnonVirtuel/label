@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Counter({ end, suffix = '', label, duration = 2000 }: Props) {
-  const { ref, isVisible } = useScrollAnimation(0.3);
+  const { ref, isVisible } = useScrollAnimation(0.2);
   const { count, setIsActive } = useCountUp(end, duration);
 
   useEffect(() => {
@@ -17,11 +17,11 @@ export default function Counter({ end, suffix = '', label, duration = 2000 }: Pr
   }, [isVisible, setIsActive]);
 
   return (
-    <div ref={ref} className="text-center py-2">
-      <div className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-orange mb-2">
+    <div ref={ref} className="text-center py-1">
+      <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-orange mb-1">
         {isVisible ? count : 0}{suffix}
       </div>
-      <div className="text-white/70 text-xs md:text-sm uppercase tracking-wider">
+      <div className="text-white/50 text-[10px] md:text-xs uppercase tracking-wider">
         {label}
       </div>
     </div>

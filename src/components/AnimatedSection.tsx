@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function AnimatedSection({ children, className = '', animation = 'fade-up', delay = 0 }: Props) {
-  const { ref, isVisible } = useScrollAnimation(0.1);
+  const { ref, isVisible } = useScrollAnimation(0.05);
 
   const animClass = {
     'fade-up': 'animate-fade-up',
